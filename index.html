@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#172554">
+<title>Web Belajar Interaktif</title>
+
+<style>
+:root {
+  --navy: #172554;
+  --blue: #2563eb;
+  --cyan: #06b6d4;
+  --light: #f1f5f9;
+  --white: #ffffff;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --green: #16a34a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--light);
+  color: var(--ink);
+}
+
+header {
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  color: white;
+  padding: 24px;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 27px;
+}
+
+header p {
+  margin: 0;
+  color: #dbeafe;
+  line-height: 1.6;
+}
+
+.header-badge {
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 24px auto;
+  padding: 0 18px;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 20px;
+}
+
+.panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, .04);
+}
+
+.sidebar-title {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-title h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.sidebar-title p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.lesson-list {
+  padding: 10px;
+  max-height: 680px;
+  overflow-y: auto;
+}
+
+.lesson-button {
+  width: 100%;
+  display: block;
+  border: none;
+  text-align: left;
+  padding: 13px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.lesson-button:hover {
+  background: #eff6ff;
+}
+
+.lesson-button.active {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: bold;
+}
+
+.lesson-number {
+  display: inline-block;
+  margin-right: 7px;
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.lesson-heading {
+  padding: 22px;
+  margin-bottom: 18px;
+}
+
+.lesson-heading h2 {
+  margin: 0 0 10px;
+  font-size: 23px;
+}
+
+.lesson-heading p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.tag {
+  display: inline-block;
+  margin-top: 12px;
+  background: #e0f2fe;
+  color: #075985;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.work-panel {
+  min-width: 0;
+}
+
+.work-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.work-header h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+}
+
+.tab {
+  padding: 8px 11px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.tab.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
+.editor {
+  width: 100%;
+  min-height: 410px;
+  display: block;
+  padding: 16px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  background: #0f172a;
+  color: #dbeafe;
+  font: 13px/1.7 Consolas, Monaco, monospace;
+  tab-size: 2;
+}
+
+.preview-frame {
+  width: 100%;
+  height: 410px;
+  border: none;
+  display: block;
+  background: white;
+}
+
+.output {
+  min-height: 410px;
+  max-height: 410px;
+  overflow: auto;
+  padding: 18px;
+  font: 13px/1.7 Consolas, Monaco, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.preview-message {
+  padding: 20px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 13px;
+  border-top: 1px solid var(--border);
+}
+
+.button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button-primary {
+  background: var(--blue);
+  color: white;
+}
+
+.button-primary:hover {
+  background: #1d4ed8;
+}
+
+.button-secondary {
+  background: #e2e8f0;
+  color: var(--ink);
+}
+
+.info-box {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 12px;
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+  color: #164e63;
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+.info-box h3 {
+  margin: 0 0 8px;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 24px 15px;
+  font-size: 13px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 1000px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-list {
+    max-height: 260px;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 20px 15px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  .container {
+    margin-top: 15px;
+    padding: 0 10px;
+  }
+
+  .lesson-heading h2 {
+    font-size: 20px;
+  }
+
+  .editor,
+  .preview-frame,
+  .output {
+    min-height: 350px;
+    height: 350px;
+    max-height: 350px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-content">
+    <div>
+      <h1>Nurhasan 251091700145</h1>
+      <p>Belajar HTML, CSS, JavaScript, dan konsep PHP dalam satu file HTML.</p>
+    </div>
+    <div class="header-badge">
+      <strong>21 Materi Pembelajaran</strong>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <aside class="panel">
+    <div class="sidebar-title">
+      <h2>Daftar Materi</h2>
+      <p>Pilih materi untuk melihat kode sumber dan hasilnya.</p>
+    </div>
+    <nav id="lessonList" class="lesson-list"></nav>
+  </aside>
+
+  <main class="main-content">
+
+    <section class="panel lesson-heading">
+      <h2 id="lessonTitle">Memuat materi...</h2>
+      <p id="lessonDescription"></p>
+      <span id="lessonTag" class="tag">HTML</span>
+    </section>
+
+    <section class="workspace">
+
+      <div class="panel work-panel">
+        <div class="work-header">
+          <h3>Kode Sumber</h3>
+          <div class="tabs">
+            <button class="tab active" id="sourceTab" type="button">Kode</button>
+            <button class="tab" id="resultTab" type="button">Output</button>
+          </div>
+        </div>
+
+        <textarea
+          id="codeEditor"
+          class="editor"
+          spellcheck="false"
+          aria-label="Editor kode sumber"
+        ></textarea>
+
+        <div id="sourceOutput" class="output hidden"></div>
+
+        <div class="toolbar">
+          <button class="button button-primary" id="runButton" type="button">
+            ▶ Jalankan Kode
+          </button>
+          <button class="button button-secondary" id="copyButton" type="button">
+            Salin Kode
+          </button>
+          <button class="button button-secondary" id="resetButton" type="button">
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <div class="panel work-panel">
+        <div class="work-header">
+          <h3>Hasil Program</h3>
+          <span id="resultStatus" class="tag">Siap dijalankan</span>
+        </div>
+
+        <iframe
+          id="previewFrame"
+          class="preview-frame"
+          title="Hasil program"
+          sandbox="allow-scripts allow-forms allow-modals"
+        ></iframe>
+
+        <div id="textOutput" class="output hidden"></div>
+      </div>
+
+    </section>
+
+    <section class="info-box">
+      <h3>Informasi Pembelajaran</h3>
+      <div id="lessonExplanation">
+        Pilih materi di sebelah kiri untuk memulai pembelajaran.
+      </div>
+      <p>
+        <strong>Catatan:</strong> Browser tidak menjalankan PHP secara langsung.
+        Oleh karena itu, contoh PHP pada website ini menggunakan JavaScript
+        untuk menyimulasikan logika program PHP. Semua materi berada dalam satu
+        file HTML dan dapat dijalankan tanpa server PHP.
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  Web Belajar Interaktif · HTML, CSS, JavaScript, dan Simulasi PHP
+</footer>
+
+<script>
+"use strict";
+
+/*
+  Semua contoh disimpan di dalam satu file HTML.
+  Contoh PHP diterjemahkan menjadi JavaScript agar dapat dicoba
+  langsung di browser tanpa memasang server PHP.
+*/
+
+const lessons = [
+  {
+    id: 1,
+    title: "Pertemuan 1 & 2: Membuat Tabel HTML",
+    type: "HTML",
+    description: "Membuat tabel menggunakan elemen table, tr, th, dan td.",
+    explanation: "Elemen table digunakan untuk membuat tabel. Elemen tr membuat baris, th membuat judul kolom, dan td berisi data.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Tabel Mahasiswa</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #2563eb; padding: 10px; }
+th { background: #2563eb; color: white; }
+tr:nth-child(even) { background: #eff6ff; }
+</style>
+</head>
+<body>
+<h2>Data Mahasiswa</h2>
+<table>
+  <tr>
+    <th>No</th>
+    <th>Nama</th>
+    <th>Kelas</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Raihan</td>
+    <td>03SISE002</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Nurhasan</td>
+    <td>03SISE002</td>
+  </tr>
+</table>
+</body>
+</html>`
+  },
+  {
+    id: 2,
+    title: "Pertemuan 3: Form HTML",
+    type: "HTML",
+    description: "Membuat formulir input nama, email, dan tombol kirim.",
+    explanation: "Elemen form menampung input pengguna. JavaScript dapat digunakan untuk membaca data form dan menampilkan hasilnya.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Formulir</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Formulir Pendaftaran</h2>
+<form id="formDaftar">
+  <label>Nama:</label><br>
+  <input id="nama" required><br><br>
+  <label>Email:</label><br>
+  <input id="email" type="email" required><br><br>
+  <button type="submit">Kirim</button>
+</form>
+<p id="hasil"></p>
+<script>
+document.getElementById("formDaftar").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const nama = document.getElementById("nama").value;
+  const email = document.getElementById("email").value;
+  document.getElementById("hasil").textContent =
+    "Pendaftaran berhasil! Nama: " + nama + ", Email: " + email;
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 3,
+    title: "Pertemuan 4: CSS dan Desain",
+    type: "HTML + CSS",
+    description: "Mempercantik halaman web menggunakan CSS.",
+    explanation: "CSS mengatur warna, ukuran teks, jarak, tata letak, dan tampilan elemen HTML.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Desain CSS</title>
+<style>
+body {
+  font-family: Arial;
+  background: #eff6ff;
+  padding: 30px;
+}
+.kartu {
+  max-width: 350px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 5px 20px #cbd5e1;
+}
+h2 { color: #1d4ed8; }
+button {
+  background: #2563eb;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+}
+</style>
+</head>
+<body>
+<div class="kartu">
+  <h2>Belajar CSS</h2>
+  <p>CSS membuat tampilan website menjadi menarik.</p>
+  <button>Mulai Belajar</button>
+</div>
+</body>
+</html>`
+  },
+  {
+    id: 4,
+    title: "Pertemuan 5: Variabel PHP dengan JavaScript",
+    type: "PHP → JavaScript",
+    description: "Mengenal variabel dan menampilkan data menggunakan JavaScript.",
+    explanation: "PHP biasanya menggunakan tanda $ untuk variabel. Di sini konsep yang sama disimulasikan menggunakan variabel JavaScript agar berjalan langsung di browser.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Variabel</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Contoh Variabel</h2>
+<div id="hasil"></div>
+<script>
+const nama = "Nurhasan";
+const kelas = "03SISE002";
+
+document.getElementById("hasil").innerHTML =
+  "<p>Nama saya adalah " + nama + "</p>" +
+  "<p>Kelas saya adalah " + kelas + "</p>";
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 5,
+    title: "Pertemuan 6: Operasi Penjumlahan",
+    type: "JavaScript",
+    description: "Menghitung penjumlahan dua bilangan.",
+    explanation: "Operator + digunakan untuk menjumlahkan angka. Number() mengubah nilai input menjadi bilangan.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Penjumlahan</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Kalkulator Penjumlahan</h2>
+<input id="angka1" type="number" value="10">
++
+<input id="angka2" type="number" value="5">
+<button id="hitung">Hitung</button>
+<h3 id="hasil">Hasil: 15</h3>
+<script>
+document.getElementById("hitung").addEventListener("click", function() {
+  const a = Number(document.getElementById("angka1").value);
+  const b = Number(document.getElementById("angka2").value);
+  document.getElementById("hasil").textContent = "Hasil: " + (a + b);
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 6,
+    title: "Pertemuan 7: Percabangan IF ELSE",
+    type: "JavaScript",
+    description: "Membuat keputusan berdasarkan nilai.",
+    explanation: "Percabangan if dan else menjalankan perintah berbeda berdasarkan kondisi tertentu.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>IF ELSE</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Penentuan Kelulusan</h2>
+<label>Masukkan nilai:</label>
+<input id="nilai" type="number" min="0" max="100" value="80">
+<button id="cek">Periksa</button>
+<h3 id="hasil"></h3>
+<script>
+document.getElementById("cek").addEventListener("click", function() {
+  const nilai = Number(document.getElementById("nilai").value);
+  let pesan;
+
+  if (nilai < 0 || nilai > 100) {
+    pesan = "Nilai harus antara 0 sampai 100.";
+  } else if (nilai >= 60) {
+    pesan = "Selamat, Anda lulus!";
+  } else {
+    pesan = "Anda belum lulus.";
+  }
+
+  document.getElementById("hasil").textContent = pesan;
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 7,
+    title: "Pertemuan 8: Perulangan FOR",
+    type: "JavaScript",
+    description: "Menampilkan angka menggunakan perulangan.",
+    explanation: "Perulangan for menjalankan blok kode berulang kali selama kondisinya terpenuhi.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Perulangan</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Perulangan Angka 1 sampai 10</h2>
+<button id="tampilkan">Tampilkan Angka</button>
+<ol id="daftar"></ol>
+<script>
+document.getElementById("tampilkan").addEventListener("click", function() {
+  const daftar = document.getElementById("daftar");
+  daftar.replaceChildren();
+
+  for (let i = 1; i <= 10; i++) {
+    const item = document.createElement("li");
+    item.textContent = "Angka " + i;
+    daftar.appendChild(item);
+  }
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 8,
+    title: "Pertemuan 9: Array",
+    type: "JavaScript",
+    description: "Menyimpan beberapa data dalam satu variabel.",
+    explanation: "Array digunakan untuk menyimpan sekumpulan nilai. Indeks array dimulai dari angka nol.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Array</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Daftar Nama</h2>
+<button id="tampilkan">Tampilkan Nama</button>
+<ul id="hasil"></ul>
+<script>
+const namaMahasiswa = ["Nurhasan", "Andi", "Budi", "Siti"];
+
+document.getElementById("tampilkan").addEventListener("click", function() {
+  const hasil = document.getElementById("hasil");
+  hasil.replaceChildren();
+
+  namaMahasiswa.forEach(function(nama) {
+    const item = document.createElement("li");
+    item.textContent = nama;
+    hasil.appendChild(item);
+  });
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 9,
+    title: "Pertemuan 10: Function",
+    type: "JavaScript",
+    description: "Membuat fungsi untuk melakukan perhitungan.",
+    explanation: "Function merupakan blok kode yang dapat digunakan kembali. Parameter menerima nilai yang dikirimkan ke fungsi.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Function</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Fungsi Menghitung Luas Persegi Panjang</h2>
+<label>Panjang:</label>
+<input id="panjang" type="number" value="10"><br><br>
+<label>Lebar:</label>
+<input id="lebar" type="number" value="5"><br><br>
+<button id="hitung">Hitung Luas</button>
+<h3 id="hasil"></h3>
+<script>
+function hitungLuas(panjang, lebar) {
+  return panjang * lebar;
+}
+
+document.getElementById("hitung").addEventListener("click", function() {
+  const panjang = Number(document.getElementById("panjang").value);
+  const lebar = Number(document.getElementById("lebar").value);
+  document.getElementById("hasil").textContent =
+    "Luas = " + hitungLuas(panjang, lebar);
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 10,
+    title: "Pertemuan 11: Form Login",
+    type: "PHP → JavaScript",
+    description: "Membuat simulasi halaman login sederhana.",
+    explanation: "Contoh ini menyimulasikan pemeriksaan nama pengguna dan kata sandi di sisi browser. Sistem login nyata harus memvalidasi data di server dan tidak menyimpan kata sandi rahasia dalam JavaScript.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Login Sederhana</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Login</h2>
+<form id="formLogin">
+  <label>Username:</label><br>
+  <input id="username" required><br><br>
+  <label>Password:</label><br>
+  <input id="password" type="password" required><br><br>
+  <button type="submit">Masuk</button>
+</form>
+<p id="hasil"></p>
+<script>
+document.getElementById("formLogin").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  if (username === "admin" && password === "12345") {
+    document.getElementById("hasil").textContent = "Simulasi login berhasil.";
+  } else {
+    document.getElementById("hasil").textContent =
+      "Username atau password tidak sesuai.";
+  }
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 11,
+    title: "Pertemuan 12: Menghitung Diskon",
+    type: "JavaScript",
+    description: "Menghitung harga setelah mendapatkan diskon.",
+    explanation: "Persentase diskon dikalikan dengan harga awal. Harga setelah diskon adalah harga awal dikurangi potongan.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kalkulator Diskon</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Kalkulator Diskon</h2>
+<label>Harga barang (Rp):</label><br>
+<input id="harga" type="number" value="100000"><br><br>
+<label>Diskon (%):</label><br>
+<input id="diskon" type="number" value="10" min="0" max="100"><br><br>
+<button id="hitung">Hitung Harga</button>
+<div id="hasil"></div>
+<script>
+document.getElementById("hitung").addEventListener("click", function() {
+  const harga = Number(document.getElementById("harga").value);
+  const diskon = Number(document.getElementById("diskon").value);
+
+  if (harga < 0 || diskon < 0 || diskon > 100) {
+    document.getElementById("hasil").textContent = "Masukkan data yang valid.";
+    return;
+  }
+
+  const potongan = harga * diskon / 100;
+  const total = harga - potongan;
+  const rupiah = angka => angka.toLocaleString("id-ID");
+
+  document.getElementById("hasil").innerHTML =
+    "<p>Harga awal: Rp " + rupiah(harga) + "</p>" +
+    "<p>Potongan: Rp " + rupiah(potongan) + "</p>" +
+    "<h3>Total: Rp " + rupiah(total) + "</h3>";
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 12,
+    title: "Pertemuan 13: Validasi Form",
+    type: "JavaScript",
+    description: "Memeriksa input sebelum diproses.",
+    explanation: "Validasi digunakan untuk memastikan data yang dimasukkan sesuai dengan persyaratan form.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Validasi Form</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Validasi Umur</h2>
+<form id="formUmur">
+  <label>Nama:</label><br>
+  <input id="nama" required><br><br>
+  <label>Umur:</label><br>
+  <input id="umur" type="number" min="1" max="120" required><br><br>
+  <button type="submit">Periksa</button>
+</form>
+<p id="hasil"></p>
+<script>
+document.getElementById("formUmur").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const nama = document.getElementById("nama").value.trim();
+  const umur = Number(document.getElementById("umur").value);
+  const hasil = document.getElementById("hasil");
+
+  if (!nama || umur < 1 || umur > 120) {
+    hasil.textContent = "Mohon masukkan data yang valid.";
+  } else {
+    hasil.textContent = "Data " + nama + " berhasil diperiksa.";
+  }
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 13,
+    title: "Pertemuan 14: Jam Digital",
+    type: "JavaScript",
+    description: "Menampilkan jam yang diperbarui secara otomatis.",
+    explanation: "Objek Date mengambil waktu saat ini. setInterval menjalankan pembaruan secara berkala.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Jam Digital</title>
+<style>
+body { font-family:Arial;text-align:center;padding:30px;background:#eff6ff; }
+#jam { font-size:40px;color:#1d4ed8;font-weight:bold; }
+</style>
+</head>
+<body>
+<h2>Jam Digital</h2>
+<div id="jam"></div>
+<div id="tanggal"></div>
+<script>
+function perbaruiJam() {
+  const sekarang = new Date();
+
+  document.getElementById("jam").textContent =
+    sekarang.toLocaleTimeString("id-ID");
+
+  document.getElementById("tanggal").textContent =
+    sekarang.toLocaleDateString("id-ID", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+}
+
+perbaruiJam();
+setInterval(perbaruiJam, 1000);
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 14,
+    title: "Pertemuan 15: DOM dan Event",
+    type: "JavaScript",
+    description: "Mengubah tampilan halaman dengan interaksi pengguna.",
+    explanation: "DOM memungkinkan JavaScript membaca dan mengubah elemen HTML. Event click dijalankan ketika tombol ditekan.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>DOM dan Event</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2 id="judul">Selamat Datang</h2>
+<p id="pesan">Klik tombol untuk mengubah tulisan.</p>
+<button id="ubah">Ubah Tulisan</button>
+<script>
+document.getElementById("ubah").addEventListener("click", function() {
+  document.getElementById("judul").textContent = "Belajar JavaScript";
+  document.getElementById("pesan").textContent =
+    "Tulisan berhasil diubah menggunakan DOM.";
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 15,
+    title: "Pertemuan 16: Array dan Pencarian",
+    type: "JavaScript",
+    description: "Mencari data dalam sebuah array.",
+    explanation: "Metode indexOf dapat menemukan posisi nilai dalam array. Jika data tidak ditemukan, hasilnya adalah -1.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Pencarian Data</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Pencarian Nilai Mahasiswa</h2>
+<p>Data: 75, 80, 65, 90, 70, 85, 95, 60</p>
+<label>Nilai yang dicari:</label>
+<input id="target" type="number" value="90">
+<button id="cari">Cari</button>
+<h3 id="hasil"></h3>
+<script>
+const nilaiMahasiswa = [75, 80, 65, 90, 70, 85, 95, 60];
+
+document.getElementById("cari").addEventListener("click", function() {
+  const target = Number(document.getElementById("target").value);
+  const indeks = nilaiMahasiswa.indexOf(target);
+
+  document.getElementById("hasil").textContent =
+    indeks !== -1
+      ? "Data ditemukan pada indeks " + indeks
+      : "Data tidak ditemukan.";
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 16,
+    title: "Pertemuan 17: Konversi Suhu",
+    type: "JavaScript",
+    description: "Mengubah suhu Celsius menjadi Fahrenheit.",
+    explanation: "Rumus Fahrenheit adalah Celsius dikalikan 9/5 kemudian ditambah 32.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Konversi Suhu</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Konversi Celsius ke Fahrenheit</h2>
+<label>Suhu Celsius:</label>
+<input id="celsius" type="number" value="30">
+<button id="konversi">Konversi</button>
+<h3 id="hasil"></h3>
+<script>
+document.getElementById("konversi").addEventListener("click", function() {
+  const celsius = Number(document.getElementById("celsius").value);
+  const fahrenheit = (celsius * 9 / 5) + 32;
+
+  document.getElementById("hasil").textContent =
+    celsius + "°C = " + fahrenheit.toFixed(2) + "°F";
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 17,
+    title: "Pertemuan 18: Simulasi PHP dengan JavaScript",
+    type: "PHP → JavaScript",
+    description: "Mengubah konsep output PHP menjadi program JavaScript.",
+    explanation: "Kode PHP biasanya diproses oleh server. Contoh ini mengganti echo dengan textContent sehingga hasilnya dapat dilihat langsung dalam browser.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Simulasi Output PHP</title>
+</head>
+<body style="font-family:Arial;padding:20px">
+<h2>Simulasi Output PHP</h2>
+<div id="hasil"></div>
+<script>
+// Konsep PHP:
+// $nama = "Nurhasan";
+// echo "Nama saya adalah " . $nama;
+
+// Simulasi menggunakan JavaScript:
+const nama = "Nurhasan";
+document.getElementById("hasil").textContent =
+  "Nama saya adalah " + nama;
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 18,
+    title: "Pertemuan 19: Simulasi Data Perpustakaan",
+    type: "JavaScript",
+    description: "Menampilkan data buku dalam tabel HTML.",
+    explanation: "Array objek dapat digunakan untuk menyimpan data buku. JavaScript mengubah data tersebut menjadi baris tabel.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Perpustakaan</title>
+<style>
+body { font-family:Arial;padding:20px; }
+table { width:100%;border-collapse:collapse; }
+th,td { border:1px solid #cbd5e1;padding:10px;text-align:left; }
+th { background:#1d4ed8;color:white; }
+</style>
+</head>
+<body>
+<h2>Daftar Buku Perpustakaan</h2>
+<table>
+<thead>
+<tr><th>No</th><th>Judul Buku</th><th>Penulis</th></tr>
+</thead>
+<tbody id="daftarBuku"></tbody>
+</table>
+<script>
+const buku = [
+  {judul:"Belajar HTML", penulis:"Andi"},
+  {judul:"Dasar JavaScript", penulis:"Budi"},
+  {judul:"Pemrograman Web", penulis:"Siti"}
+];
+
+const tbody = document.getElementById("daftarBuku");
+
+buku.forEach(function(item, index) {
+  const baris = document.createElement("tr");
+
+  [index + 1, item.judul, item.penulis].forEach(function(nilai) {
+    const sel = document.createElement("td");
+    sel.textContent = nilai;
+    baris.appendChild(sel);
+  });
+
+  tbody.appendChild(baris);
+});
+<\/script>
+</body>
+</html>`
+  },
+  {
+    id: 19,
+    title: "Pertemuan 20 dan 21: Website Perpustakaan",
+    type: "HTML + CSS + JavaScript",
+    description: "Menggabungkan desain, pencarian, dan data buku.",
+    explanation: "Proyek ini menggabungkan HTML untuk struktur, CSS untuk tampilan, dan JavaScript untuk pencarian buku. Data tersimpan sementara di dalam kode browser.",
+    code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpustakaan Digital</title>
+<style>
+body { margin:0;font-family:Arial;background:#f1f5f9;color:#1e293b; }
+header { background:#172554;color:white;padding:25px;text-align:center; }
+main { max-width:800px;margin:25px auto;padding:0 15px; }
+input { width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px; }
+.kartu { background:white;margin-top:12px;padding:16px;border-radius:10px; }
+.kartu h3 { margin:0 0 8px;color:#1d4ed8; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Perpustakaan Digital</h1>
+  <p>Temukan buku favorit Anda</p>
+</header>
+<main>
+  <input id="pencarian" placeholder="Cari judul atau penulis buku...">
+  <div id="daftar"></div>
+</main>
+<script>
+const buku = [
+  {judul:"Belajar HTML dan CSS", penulis:"Andi"},
+  {judul:"JavaScript untuk Pemula", penulis:"Budi"},
+  {judul:"Dasar Basis Data", penulis:"Siti"},
+  {judul:"Pemrograman Web", penulis:"Dewi"},
+  {judul:"Algoritma dan Struktur Data", penulis:"Rudi"}
+];
+
+function tampilkanBuku(kataKunci = "") {
+  const daftar = document.getElementById("daftar");
+  daftar.replaceChildren();
+
+  const hasil = buku.filter(function(item) {
+    return (item.judul + " " + item.penulis)
+      .toLowerCase()
+      .includes(kataKunci.toLowerCase());
+  });
+
+  if (hasil.length === 0) {
+    const pesan = document.createElement("p");
+    pesan.textContent = "Buku tidak ditemukan.";
+    daftar.appendChild(pesan);
+    return;
+  }
+
+  hasil.forEach(function(item) {
+    const kartu = document.createElement("div");
+    kartu.className = "kartu";
+
+    const judul = document.createElement("h3");
+    judul.textContent = item.judul;
+
+    const penulis = document.createElement("p");
+    penulis.textContent = "Penulis: " + item.penulis;
+
+    kartu.append(judul, penulis);
+    daftar.appendChild(kartu);
+  });
+}
+
+document.getElementById("pencarian").addEventListener("input", function(event) {
+  tampilkanBuku(event.target.value);
+});
+
+tampilkanBuku();
+<\/script>
+</body>
+</html>`
+  }
+];
+
+const lessonList = document.getElementById("lessonList");
+const lessonTitle = document.getElementById("lessonTitle");
+const lessonDescription = document.getElementById("lessonDescription");
+const lessonTag = document.getElementById("lessonTag");
+const lessonExplanation = document.getElementById("lessonExplanation");
+const codeEditor = document.getElementById("codeEditor");
+const previewFrame = document.getElementById("previewFrame");
+const textOutput = document.getElementById("textOutput");
+const sourceOutput = document.getElementById("sourceOutput");
+const resultStatus = document.getElementById("resultStatus");
+const sourceTab = document.getElementById("sourceTab");
+const resultTab = document.getElementById("resultTab");
+
+let activeLesson = 0;
+
+function renderLessonList() {
+  lessonList.replaceChildren();
+
+  lessons.forEach(function(lesson, index) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "lesson-button";
+    button.dataset.index = index;
+
+    const number = document.createElement("span");
+    number.className = "lesson-number";
+    number.textContent = String(lesson.id).padStart(2, "0");
+
+    button.appendChild(number);
+    button.appendChild(document.createTextNode(lesson.title));
+    button.addEventListener("click", function() {
+      selectLesson(index);
+    });
+
+    lessonList.appendChild(button);
+  });
+}
+
+function selectLesson(index) {
+  activeLesson = index;
+
+  const lesson = lessons[index];
+
+  lessonTitle.textContent = lesson.title;
+  lessonDescription.textContent = lesson.description;
+  lessonTag.textContent = lesson.type;
+  lessonExplanation.textContent = lesson.explanation;
+  codeEditor.value = lesson.code;
+
+  document.querySelectorAll(".lesson-button").forEach(function(button, i) {
+    button.classList.toggle("active", i === index);
+  });
+
+  showSourceTab();
+  runCode();
+}
+
+function showSourceTab() {
+  sourceTab.classList.add("active");
+  resultTab.classList.remove("active");
+  codeEditor.classList.remove("hidden");
+  sourceOutput.classList.add("hidden");
+}
+
+function showResultTab() {
+  resultTab.classList.add("active");
+  sourceTab.classList.remove("active");
+  codeEditor.classList.add("hidden");
+  sourceOutput.classList.remove("hidden");
+  sourceOutput.textContent = codeEditor.value;
+}
+
+function runCode() {
+  const lesson = lessons[activeLesson];
+  const code = codeEditor.value;
+
+  previewFrame.classList.remove("hidden");
+  textOutput.classList.add("hidden");
+
+  if (lesson.type.includes("PHP")) {
+    resultStatus.textContent = "Simulasi JavaScript";
+  } else {
+    resultStatus.textContent = "Program dijalankan";
+  }
+
+  /*
+    Kode dijalankan di iframe terpisah.
+    PHP tidak diproses oleh browser; contoh PHP di materi
+    telah ditulis sebagai simulasi JavaScript.
+  */
+  previewFrame.srcdoc = code;
+}
+
+document.getElementById("runButton").addEventListener("click", function() {
+  runCode();
+});
+
+sourceTab.addEventListener("click", showSourceTab);
+
+resultTab.addEventListener("click", showResultTab);
+
+codeEditor.addEventListener("input", function() {
+  sourceOutput.textContent = codeEditor.value;
+});
+
+document.getElementById("copyButton").addEventListener("click", async function() {
+  try {
+    await navigator.clipboard.writeText(codeEditor.value);
+    this.textContent = "Berhasil Disalin!";
+  } catch (error) {
+    codeEditor.focus();
+    codeEditor.select();
+
+    try {
+      const berhasil = document.execCommand("copy");
+      this.textContent = berhasil ? "Berhasil Disalin!" : "Salin Manual";
+    } catch (copyError) {
+      this.textContent = "Salin Manual";
+    }
+  }
+
+  const button = this;
+  setTimeout(function() {
+    button.textContent = "Salin Kode";
+  }, 1800);
+});
+
+document.getElementById("resetButton").addEventListener("click", function() {
+  codeEditor.value = lessons[activeLesson].code;
+  runCode();
+  showSourceTab();
+});
+
+renderLessonList();
+selectLesson(0);
+</script>
+
+</body>
+</html>
